@@ -6,7 +6,7 @@ The module enables to create individual admission procedures for individual stud
 
 During the studies, the results of seminars and exams and credits obtained for individual successfully completed courses are recorded. Furthermore, the module enables to manage results of defenses of diploma and bachelor's theses and state final examinations. Students are able to view their own results, credits and personal details.
 
-Students are able to sign up for another section of the study program according to University specification. Students must meet required number of credits and the module needs to check if this condition is met. Students should be notified about the sign up deadline. 
+Students are able to register for subsequent unit of their study program according to University specification. Students must meet required number of credits and the module needs to check if this condition is met. Students should be notified about the register deadline. 
 
 The module also allows users to create statistical reports on the student success rate in each year. 
 
@@ -18,10 +18,14 @@ This section specifies the functional requirements.
 
 #### Students
 
+- MUSTR: WHO - WHAT - WHY **TODO**
+- EXAMPLE: - As a Student I should be able to view my exam results because I need to have my results gathered at one place
+
 - Students should be able to fill an admission form and send the admission request to the study department.
-- Students should be able to view their results, credits and personal details.
-- Students should be able to sign up for another section of the study program according to the University specification.
-- The module should automatically notify the students about the deadline for signing up for another section of the study program.
+- Students should be able to view their credits.
+- Students should be able to view their personal details.
+- Students should be able to register for subsequent unit of their study program according to the University specification.
+- The module should automatically notify the students about the deadline for registering for subsequent unit of their study program.
 
 #### Study department
 
@@ -50,11 +54,11 @@ This section specifies the functional requirements.
 
 ##### Students
 
-The student is person studying at the university. He can send admission request. He is able to view his personal results and credits gained in subjects. He can sign up for another section of the study program.
+A student is a person studying at the university. They can send admission request. They are able to view their personal results and their credits obtained in subjects. They can register for subsequent unit of their study program.
 
 ##### Study department
 
-The study department manages admission procedures and records whether admitted students enrolled or not. The study department also wants the module to be able to automatically check whether the students meet required number of credits.
+The study department manages admission procedures and records whether admitted students enrolled. The study department is notified about the students' registrations for subsequent units of their study programs. 
 
 ##### Teachers
 
@@ -78,40 +82,53 @@ package "University Employees" {
 }
 
 package "Student module" {
-  usecase "Sign up for another section of the studies" as SignUp
+  usecase "Register for subsequent unit of study" as SignUp
   usecase "Fill an admission form" as fillAdmissionForm
   usecase "Send admission request" as sendAdmissionRequest
   usecase "Check credit requirements" as CheckCredits
   usecase "View results" as ViewResultsUC
   usecase "View credits" as ViewCreditsUC
   usecase "View personal data" as ViewPersonalData
-  usecase "Notify student about sign up deadline" as NotifySignUpDeadline
+  usecase "Notify student about register deadline" as NotifySignUpDeadline
 }
 
-s --> fillAdmissionForm
-sendAdmissionRequest ..> fillAdmissionForm : <<extends>>
-SignUp ..> CheckCredits : <<include>>
-SignUp --> sd
-sendAdmissionRequest --> sd
-s --> SignUp
-s --> ViewResultsUC
-s --> ViewCreditsUC
-s --> ViewPersonalData
-NotifySignUpDeadline --> s
+s -- fillAdmissionForm
+sendAdmissionRequest .. fillAdmissionForm : <<extends>>
+SignUp .. CheckCredits : <<include>>
+SignUp -- sd
+sendAdmissionRequest -- sd
+s -- SignUp
+s -- ViewResultsUC
+s -- ViewCreditsUC
+s -- ViewPersonalData
+s -- NotifySignUpDeadline
 
 @enduml
 ```
 
+**General precondition**
 For each use case, we assume that the respective actor has verified themselves and is successfully authorized.
 
-###### Use case - signup for another section of the studies
+###### Use case - signup for subsequent unit of study
 
-1. The student has to go to the website where they sign up for another section of their studies.
-2. The student clicks a button which sends a request to the server.
-3. The server checks whether the student meets all criteria for signing up and sends back a response. Credits need to be checked for this in order to check that requirements are met.
-4. If the criteria are met, both the student and the study department are notified.
-5. If the student does not meet the criteria for the signup, the study department receives no message and a notification about unsuccessful request is shown to the student.
-6. If possible, the student signs up for another section of the studies. Sign up event is then sent to the Study Department.
+**Precondition**
+- The student has to go to the website where they register for subsequent unit of their studies.
+
+**Normal flow**
+1. The student tells the system they want to register for subsequent unit of their study program.
+2. The system checks whether the student meets all criteria for registering. Credits need to be checked for this in order to check that requirements are met.
+3. The student is informed about the successful check.
+4. The student signs up for subsequent unit of study. The study department is informed about the registration as well.
+
+**What can go wrong (alternative scenarios)**
+- In the second point, the student could not meet the criteria for the registration. Then the following happens:
+  3. The student informed about the unsuccessful check. They may not register for subsequent unit of study.
+
+**Postcondition**
+- The system has recorded the student's for subsequent unit of study. Both the student and the study department are notified.
+
+
+**TODO: každý udělat 2 scénáře**
 
 ###### Use case - fill admission form
 
@@ -124,22 +141,22 @@ For each use case, we assume that the respective actor has verified themselves a
 
 ###### Use case - view results
 
-1. Student wants to view their study results.
+1. Student wants to view his study results.
 2. The server recieves a request to return the student's results.
 3. The results are shown to the student.
 
 ###### Use case - view credits
 
-1. Student wants to view their credits
+1. Student wants to view his credits
 2. Student clicks on button which sends a request to the server
 3. Student is displayed his credit count
 4. Student can filter years and semesters by using another button
 
 ###### Use case - view personal data
 
-1. Student wants to view their personal data
+1. Student wants to view his personal data
 2. Student clicks on button which sends a request to the server
-3. Student is displayed their personal data
+3. Student is displayed his personal data
 
 ##### Study department
 
@@ -152,6 +169,8 @@ For each use case, we assume that the respective actor has verified themselves a
 ---
 
 ## Information model
+
+**TODO: this**
 
 [*Express the information model of the domain as a UML class diagram in PlantUML. Do not use class methods in the diagram, only classes, class attributes and associations connecting classes.*]
 
