@@ -162,7 +162,8 @@ NotifyCriteria ..> CheckCredits : <<include>>
 
 ###### Use case - Register for subsequent unit of study
 
-**Precondition:** 
+**Precondition:**
+
 The student goes to the website where they register for subsequent unit of study.
 
 **Normal flow:**
@@ -173,27 +174,32 @@ The student goes to the website where they register for subsequent unit of study
 5. The study department is informed about the registration.
 
 **What can go wrong:**
+
 a) Student does not meet the criteria.
 
 3. The student is notified that they do not meet the criteria.
 4. The student cannot confirm the registration.
 
 **Postcondition:**
+
 The student is registered for subsequent unit of study.
 
 
 ###### Use case - Fill an admission form
 
-**Precondition:** 
+**Precondition:**
+
 The student goes to the website with the admission form to fill in.
 
 **Normal flow:**
+
 1. The student fills in all required fields.
 2. The module checks whether the data conforms to the criteria.
 3. The student sends the completed admission form.
 4. The study department is notified about a new student admission. 
 
 **What can go wrong:**
+
 a) The student does not fill in all information.
 
 3. The student is notified that they need to fill in the required information. Until then, they are not able to send the admission. We return to the point number 2.
@@ -203,47 +209,57 @@ b) The student enters invalid information.
 3. The student is notified that they entered an invalid value. They are not able to send the admission until they enter a valid value. We return to the point number 2.
 
 **Postcondition:**
+
 The student has successfully sent the admission form and the study department knows about the admission.
+
 
 ###### Use case - View exam results
 
-**Precondition:** 
+**Precondition:**
+
 The student goes to the website where they view their study results.
 
 **Normal flow:**
-1. The Student wants to view their study results.
+1. The student wants to view their study results.
 2. The module is asked to provide the student's results.
 3. The results are shown to the student.
 
 **Postcondition:**
+
 The student is shown their study results.
 
 ###### Use case - view credits
 
-**Precondition:** 
+**Precondition:**
+
 The student goes to the website where they view their credits.
 
 **Normal flow:**
-1. The Student wants to view their credits.
+1. The student wants to view their credits.
 2. The module is asked to provide the student's credits.
-3. The Student is displayed their credit count.
-4. The Student can see each year's and semester's credit count.
+3. The student is displayed their credit count.
+4. The student can see each year's and semester's credit count.
 
 **Postcondition:**
+
 The student is shown their credits.
+
 
 ###### Use case - view personal data
 
-**Precondition:** 
+**Precondition:**
+
 The student goes to the website where they view their personal data.
 
 **Normal flow:**
-1. The Student wants to view his personal data.
+1. The student wants to view his personal data.
 2. The module is asked to provide the student's personal data.
 3. Student is displayed his personal data.
 
 **Postcondition:**
+
 The student is shown their personal data.
+
 
 ##### Study department
 
@@ -340,6 +356,30 @@ tch -- ManageThesesResults
 @enduml
 ```
 
+###### Use case - Record course results
+
+**Precondition:**
+
+The teacher goes to the website page where they enter students' course results.
+
+**Normal flow:**
+1. The teacher navigates to the course they want to record results for.
+2. The module presents the teacher with a list of students enrolled in the course.
+3. The teacher selects the student whose results they want to record.
+4. The module displays a form that allows the teacher to select the grade or to award a credit.
+5. The teacher selects the correct grade or awards the student with a credit.
+6. The teacher saves the results.
+7. The module confirms that the results have been saved successfully.
+
+**What can go wrong:**
+
+a) The teacher does not select a grade.
+3. The module notifies the teacher that no grades could have been saved.
+
+**Postcondition:**
+
+The course results are recorded in the module.
+
 #### All users
 
 ```plantuml
@@ -355,6 +395,23 @@ package "Student module" {
 user -- statistics
 @enduml
 ```
+
+###### Use case - Access statistics of study programs
+
+**Precondition:**
+
+The user goes to the course statistics website.
+
+**Normal flow:**
+1. The module presents the user with a list of study programs.
+2. The user selects the study program they want to view statistics for.
+3. The module displays statistics of the study program, such as
+    - number of enrolled students
+    - number of students that successfully completed the course
+    - the average grade
+
+**Postcondition:**
+None
 
 ---
 
