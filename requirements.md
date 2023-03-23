@@ -112,54 +112,6 @@ NotifyCriteria ..> CheckCredits : <<include>>
 @enduml
 ```
 
----
-
-# TODO
--> precondition:
-- moje potřeba je zapsat se do dalšího úseku, potřeba předpokládá, že mám dost kreditů, absolvoval jsem předchozí úsek studia atd.
-
--> normal flow
-- Student jde na webovou stránku, vybere si, že se chce zapsat, systém zkontoluje, že jsou splněna kritéria zápisu, student se zapíše, systémm notifikuje studenta a department a je hotovo
-
--> WHAT CAN GO WRONG (alternativní scénáře) - má být v další části
-- Pokud student nesplňuje kritéria, je zpraven o neúspěšné žádosti
-
--> postcondition
-- Jaký je stav systému, když co systém doběhl
-
--> omezit technické detaily:
-- žádný server, žádné technické problémy
-
-
-**Precondition:** 
-
-**Normal flow:**
-
-**What can go wrong:**
-
-**Postcondition:**
-
-- [x] Upravit user requirements do podoby scénářů z přednášky
-  - [x] Např. As a student, I should be able to ..., because/so that ...
-- [x] Rozčlenit user requirements (nekombinovat dohromady "students should be able to view their credits, results and personal details", ale rozčlenit do 3 requirementů)
-- [x] System requirements - Actors - psát konzistentně (měli jsme tam jednou "__A__ student", a potom "__The__ teacher")
-- [x] Use case diagramy - v tomhle kontextu by měly být opravdu triviální, je zbytečné snažit se naznačovat nějaké detaily pomocí orientace hran (klidně je možné orientaci hran vypustit).
-  - [x] Např. je zbytečné mít orientované hrany student --> module.viewResults a module.notifyStudent --> student
-- [x] Detailní popis use kejsů
-  - [x] neřešit vůbec technické věci
-  - [x] Nepoužívat slovo server - místo toho používat module
-  - [x] Žádné zmínky o nějakých requestech
-  - [x] Spíše obecnější popis
-    - [x] NE "Student clicks a button which sends a request to the server to register for the subsequent unit of their studies"
-    - [x] ANO "Student uses the system to register for the subsequent unit of their studies"
-    - [x] Neřešíme jak se to udělá, jenom co se udělá
-
-- [ ] Information model
-
-
----
-
-
 ###### Use case - Register for subsequent unit of study
 
 **Precondition:**
@@ -417,20 +369,101 @@ None
 
 ## Information model
 
-[*Express the information model of the domain as a UML class diagram in PlantUML. Do not use class methods in the diagram, only classes, class attributes and associations connecting classes.*]
-
 ```plantuml
 @startuml
-class Car
+left to right direction
+allowmixing
 
-Driver - Car : drives >
-Car *- Wheel : have 4 >
-Car -- Person : < owns
+person Person
+person Department [
+    Study department
+]
+person Student
+person Teacher
+
+class "Statistic report" as Report
+class "Study programme" as Programme
+class "Unit of study" as Unit
+class "Admission request" as Request
+class "Admission procedure" as Procedure
+class "Personal data" as Data
+class "Credit" as Credit
+class "Subject" as Subject
+class "Result" as Result
+class "Exam" as Exam
+class "Thesis defence" as Defence
+
+Student --> Defence : submits
+Student --> Result : views
+Student --> Programme : signs up for
+Student --> Request : sends
+Student --> Subject : signs up for
+Student --> Exam : participates in
+Student --> Credit : has
+Student --> Data : views
+Student --> Unit : signs up for
+
+Teacher --> Defence : supervises
+Teacher --> Subject : teaches
+Teacher --> Result : edits
+
+Department --> Procedure : manages
+Department --> Student : notifies
+Department --> Programme : manages
+
+Person --> Report : views
+
+Subject --> Exam : has
+Subject --> Credit : is worth
+Subject --> Result : has
+
+Request --> Procedure : relates to
+Request --> Department : is sent to
+Request --> Programme : applies to
+
+Programme --> Report : has
+Exam --> Result : has
+Defence --> Result : has
+Procedure --> Result : has
+
 @enduml
 ```
 
-[*Document each class with a short description in a separate subsection*]
+### Person
+Any user of the system, including visitors.
 
-### [*Class name*]
+### Student
+A person enrolled in the studies.
 
-[*Class description*]
+### Teacher
+A person teaching the subjects and evaluating students.
+
+### Study department
+An organization responsible for managing students, teachers, admissions, statistics, results, their activities and relations between them.
+
+### Subject
+A part of a study programme taught by a teacher.
+
+### Credit
+A point assigned for subjects. A certain amount is necessary for finishing the studies and registering for a subsequent unit of study. 
+
+### Result
+An evaluation of subjects, exams, thesis defenses and admission procedures which decides whether credits are assigned and whether studies can be finished. 
+
+### Unit of study
+A part of study which provides space for finishing subjects and requires credits to sign up for.
+
+### Bachelor's/master's thesis defense
+Decides result of Bachelor's and master's thesis which is neccesary for finishing study programmes.
+
+### Study programme
+A set of subjects and thesis which a student has to finish in order to get a degree in specific field of study.
+
+### Admission procedure
+Steps which have to be completed in order to be able to enroll for a specific study programme.
+
+### Admission request
+A formal request to undergo the admission procedure.
+
+### Statistics report
+Statistics containing information about success rates of students in each year in all study programmes.
