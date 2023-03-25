@@ -288,6 +288,31 @@ a) The study department enters information in wrong format.
 
 The results of the admission procedures are stored.
 
+
+###### Use case - Record students enrollment
+
+**Precondition:**
+
+The study department goes to a website, where they can record the students enrollment
+
+**Normal flow:**
+
+1. The study department enters information about the student and his enrollment
+2. The study department sends the entered information to the module.
+3. The module stores the information.
+4. The module notifies the study department that the information was stored successfully.
+
+**What can go wrong:**
+
+a) The study department enters incorrect information (e.g., The students enrollment is incompatible with study program of the student).
+
+3. The module notifies the study department that they had entered incorrect information.
+
+**Postcondition:**
+
+The students enrollment is stored.
+
+
 ##### Teachers
 
 ```plantuml
