@@ -293,7 +293,7 @@ The results of the admission procedures are stored.
 
 **Precondition:**
 
-The study department goes to a website, where they can record the students enrollment
+The study department goes to a website, where they can record students enrollment
 
 **Normal flow:**
 
@@ -392,70 +392,79 @@ None
 
 ---
 
-## Information model
+
+### Information model
 
 ```plantuml
 @startuml
 left to right direction
 allowmixing
 
-person Person
-person Department [
-    Study department
-]
-person Student
-person Teacher
+class "Study department" as Department {
+    contact_person_name
+    contact_person_surname
+    e-mail
+    phone
+}
 
-class "Statistic report" as Report
-class "Study programme" as Programme
-class "Unit of study" as Unit
-class "Admission request" as Request
-class "Admission procedure" as Procedure
-class "Personal data" as Data
-class "Credit" as Credit
-class "Subject" as Subject
-class "Result" as Result
-class "Exam" as Exam
-class "Thesis defence" as Defence
+class "Student" as Student {
+    name
+    surname
+    login
+    e-mail
+    status_of_study
+    current_year
+    study_programme
+    unit_of_study
+}
 
-Student --> Defence : submits
-Student --> Result : views
-Student --> Programme : signs up for
-Student --> Request : sends
-Student --> Subject : signs up for
-Student --> Exam : participates in
-Student --> Credit : has
-Student --> Data : views
-Student --> Unit : signs up for
+class "Teacher" as Teacher {
+    name
+    surname
+    login
+    e-mail
+    phone
+    work_department
+}
 
-Teacher --> Defence : supervises
-Teacher --> Subject : teaches
-Teacher --> Result : edits
+class "Subject" as Subject {
+    credits
+    name
+    code
+}
 
-Department --> Procedure : manages
-Department --> Student : notifies
-Department --> Programme : manages
+class "Exam" as Exam {
+    result
+    date
+}
 
-Person --> Report : views
+class "Admission request" as Request {
+    result
+    status
+}
 
-Subject --> Exam : has
-Subject --> Credit : is worth
-Subject --> Result : has
+class "Thesis defence" as Defence {
+    topic
+    result
+    date
+}
 
-Request --> Procedure : relates to
-Request --> Department : is sent to
-Request --> Programme : applies to
+Subject "1" -- "0..n" Exam
 
-Programme --> Report : has
-Exam --> Result : has
-Defence --> Result : has
-Procedure --> Result : has
+Department "1" --- "0..n" Request
+
+Teacher "1" -- "0..n" Exam
+Teacher "2..n" -- "0..n" Defence
+
+Student "1" -- "0..n" Subject
+Student "1" --- "1..n" Request
+Student "1" -- "0..n" Defence
+
+Subject "1..n" -- "1" Teacher
 
 @enduml
 ```
 
-### Person
-Any user of the system, including visitors.
 
 ### Student
 A person enrolled in the studies.
@@ -467,28 +476,13 @@ A person teaching the subjects and evaluating students.
 An organization responsible for managing students, teachers, admissions, statistics, results, their activities and relations between them.
 
 ### Subject
-A part of a study programme taught by a teacher.
-
-### Credit
-A point assigned for subjects. A certain amount is necessary for finishing the studies and registering for a subsequent unit of study. 
-
-### Result
-An evaluation of subjects, exams, thesis defenses and admission procedures which decides whether credits are assigned and whether studies can be finished. 
-
-### Unit of study
-A part of study which provides space for finishing subjects and requires credits to sign up for.
+A part of a study programme taught by a teacher. Every subject has a specified amount of credits, which are obtainable by passing the subject.
 
 ### Bachelor's/master's thesis defense
 Decides result of Bachelor's and master's thesis which is neccesary for finishing study programmes.
 
-### Study programme
-A set of subjects and thesis which a student has to finish in order to get a degree in specific field of study.
-
-### Admission procedure
-Steps which have to be completed in order to be able to enroll for a specific study programme.
-
 ### Admission request
 A formal request to undergo the admission procedure.
 
-### Statistics report
-Statistics containing information about success rates of students in each year in all study programmes.
+### Exam
+An event which is necessary for completing a given subject.
