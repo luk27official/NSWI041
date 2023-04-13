@@ -427,7 +427,7 @@ class "Teacher" as Teacher {
     work_department
 }
 
-class "Subject" as Subject {
+class "Course" as Course {
     credits
     name
     code
@@ -449,18 +449,18 @@ class "Thesis defence" as Defence {
     date
 }
 
-Subject "1" -- "0..n" Exam
+Course "1" -- "0..n" Exam
 
 Department "1" --- "0..n" Request
 
 Teacher "1" -- "0..n" Exam
 Teacher "2..n" -- "0..n" Defence
 
-Student "1" -- "0..n" Subject
+Student "1" -- "0..n" Course
 Student "1" --- "1..n" Request
 Student "1" -- "0..n" Defence
 
-Subject "1..n" -- "1" Teacher
+Course "1..n" -- "1..n" Teacher
 
 @enduml
 ```
@@ -470,13 +470,13 @@ Subject "1..n" -- "1" Teacher
 A person enrolled in the studies.
 
 ### Teacher
-A person teaching the subjects and evaluating students.
+A person teaching the courses and evaluating students.
 
 ### Study department
 An organization responsible for managing students, teachers, admissions, statistics, results, their activities and relations between them.
 
-### Subject
-A part of a study programme taught by a teacher. Every subject has a specified amount of credits, which are obtainable by passing the subject.
+### Course
+A part of a study programme taught by teachers. Every course has a specified amount of credits, which are obtainable by passing the course.
 
 ### Bachelor's/master's thesis defense
 Decides result of Bachelor's and master's thesis which is neccesary for finishing study programmes.
@@ -485,4 +485,4 @@ Decides result of Bachelor's and master's thesis which is neccesary for finishin
 A formal request to undergo the admission procedure.
 
 ### Exam
-An event which is necessary for completing a given subject.
+An event which is necessary for completing a given course.
