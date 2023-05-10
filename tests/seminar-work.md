@@ -411,7 +411,50 @@ Finální stav
 - Učitel úspěšně aktivoval prerekvizitu.
 - Učitel se pokusil aktivovat prerekvizitu, ale systém požadavaek zamítl.
 
+##### Zamezit přihlášní studentů do předmětu, které mají plnou kapacitu, aby se vešli do učebny
 
+Počáteční stav
+
+- Garant chce zamezit prihláseniu ďalších študentov do predmetu, ktorý má plnú kapacitu
+
+Normální postup
+
+1. Garant si zobrazí přehled predmetov.
+2. Garant zistí, že nejaký predmet má plnú kapacitu.
+3. Garant si zobrazí detail daného predmetu.
+4. Garant klikne na možnosť zamezenie prihlásenia do predmetu.
+5. Garant potvrdí zmenu.
+6. Garantovi sa zobrazí potvrdenie o zamezení ďalších prihlásení.
+
+Co se může pokazit
+
+1. Garant sa pokúsi zameziť ďalšiemu prihlasovaniu na predmete, ktorému nieje garantom.
+
+Finální stav
+
+- Ďalšie prihlasovanie študentov na predmet nieje prístupné.
+- Učiteľovi sa nepodarilo zameziť prihlasovaniu na predmet. Na predmet sa je stále možné prihlásiť.
+
+Activity diagram
+
+```plantuml
+@startuml
+
+start
+:Zobrazit prehľad predmetov;
+:Zobraziť kapacitu a aktuálne zaplnenie predmetov;
+:Vybrať predmet, pre ktorý chce učiteľ zameziť prihlasovanie;
+if (Je učiteľ garantom predmetu?) then (Ano)
+    :Zameziť ďalšiemu prihlasovaniu;
+    :Potvrdiť zamezenie prihlasovania;
+    stop
+else (Ne)
+    :Zobraziť chybovú správu;
+    stop
+endif
+
+@enduml
+```
 
 ## Information model
 
