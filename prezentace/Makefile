@@ -5,4 +5,6 @@ review.pdf: review.tex
 
 clean:
 	rm -f *.aux *.log *.nav *.out *.snm *.toc
+
+distclean: clean
 	rm -f review.pdf
